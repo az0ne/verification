@@ -1,0 +1,93 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8" />
+<html>
+<head>
+    <script src="js/jquery-1.8.2.js"> </script>
+    <script>
+
+        $(document).ready(function(){
+            $("#myoutput2").click(function(){
+                check();
+            })
+            $('#myimg').load(function(){
+                getCode(document.getElementById("myimg").src);
+            })
+            $("#myoutput1").click(function(){
+                getCode(document.getElementById("myimg").src);
+            })
+            $('#but').click(function() {
+                refresh();
+            })
+        });
+        function getCode(src) {
+            $("#myoutput1").html("正在发送中....");
+            $.ajax({
+                url:'getCode.php?src=' + src,
+                type:'GET',
+
+                success:function(e){
+                    //alert(e);
+                    $("#code").val(e);
+                    $("#myoutput1").html("获取验证码成功！");
+                    check();
+                },
+                error:function() {
+                    alert('请求超时');
+                }
+            });
+        }
+        function check() {
+            src = document.getElementById("myimg").src;
+            //alert(src);
+            $("#myoutput2").html("正在发送中....");
+            $.ajax({
+                url:'check.php?src=' + src + '&key=' + $("#code").val(),
+                type:'GET',
+
+                success:function(e){
+                    if (e == 'OK') {
+                        $("#myoutput2").html("验证码正确！");
+                        //change();
+                        markNum(1);
+                        //refresh();
+                    }
+                    else {
+                        $("#myoutput2").html(e + "点我继续发送！");
+                        markNum(0);
+                    }
+                    refresh();
+                },
+                error:function() {
+                    alert('请求超时');
+                }
+            });
+        }
+        function refresh() {
+            $.ajax({
+                url:'refresh.php',
+                type:'GET',
+
+                success:function() {
+                    location.reload();
+                }
+            });
+        }
+        function markNum(flag) {
+            $.ajax({
+                url:'markNum.php?success=' + flag,
+                type:'GET'
+
+            });
+        }
+       </script>
+</head>
+<body>
+<form>
+    <img src = "0.jpg" id = "myimg">
+	<input type="text" name="code" value="" id = "code" checked="checked">
+    <u> <a id="but"> 刷新 </a><u>
+    <u><p id = 'myoutput1'> </p><u>
+    <u><p id = 'myoutput2'> 点我发送数据</p><u>
+</form>
+
+</body>
+</html>
