@@ -2,7 +2,7 @@
 $server='localhost';
 $username='root';
 $password='';
-$database='identifying';
+$database='indentify';
 $conn=mysql_connect($server,$username,$password)
 or die("Cann't open mysql");
 mysql_select_db($database, $conn)

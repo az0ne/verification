@@ -6,8 +6,8 @@ include ('my_helper.php');
 
 $src = $_GET["src"];
 $key = $_GET["key"];
-//$src = "6.jpg";
-//$key = "VIJA";
+//$src = "0.jpg";
+//$key = "RUFB";
 $valite = new Valite();
 $valite->setImage($src);
 $block = $valite->gao();  //$block是个数组，范围(1~n)

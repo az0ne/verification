@@ -27,7 +27,6 @@ function getWordInfo() {
 
 function dealData($block, $n, $m) {
 	$data = array();
-	//
 	for ($i = 0; $i < $n; $i++) {
 		$data[$i] = array();
 		for ($j = 0; $j < $m; $j++) {

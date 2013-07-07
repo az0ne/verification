@@ -5,7 +5,7 @@
     <script>
 
         $(document).ready(function(){
-            $("#myoutput2").click(function(){
+            $("#myoutput2").click(function(){ 
                 check();
             })
             $('#myimg').load(function(){
@@ -18,7 +18,7 @@
                 refresh();
             })
         });
-        function getCode(src) {
+        function getCode(src) {    //识别验证码
             $("#myoutput1").html("正在发送中....");
             $.ajax({
                 url:'getCode.php?src=' + src,
@@ -35,7 +35,7 @@
                 }
             });
         }
-        function check() {
+        function check() {      //检查验证码是否正确
             src = document.getElementById("myimg").src;
             //alert(src);
             $("#myoutput2").html("正在发送中....");
@@ -44,38 +44,37 @@
                 type:'GET',
 
                 success:function(e){
+                    //refresh();
                     if (e == 'OK') {
                         $("#myoutput2").html("验证码正确！");
-                        //change();
                         markNum(1);
-                        //refresh();
+                        refresh();
                     }
                     else {
                         $("#myoutput2").html(e + "点我继续发送！");
                         markNum(0);
+                        refresh();
                     }
-                    refresh();
                 },
                 error:function() {
                     alert('请求超时');
                 }
             });
         }
-        function refresh() {
+        function refresh() {   //刷新页面重新抓取一个验证码
+			//return;   //若不想刷新取消掉这句注释
             $.ajax({
                 url:'refresh.php',
                 type:'GET',
-
                 success:function() {
                     location.reload();
                 }
             });
         }
-        function markNum(flag) {
+        function markNum(flag) {    //存下是否成功识别验证码的记录
             $.ajax({
                 url:'markNum.php?success=' + flag,
                 type:'GET'
-
             });
         }
        </script>
